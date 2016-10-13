@@ -115,10 +115,6 @@ module.exports = function(Canvas){
     }
   }
 
-  qrcode.decode_utf8 = function ( s ) {
-    return decodeURIComponent( escape( s ) );
-  }
-
   qrcode.process = function(ctx){
     var start = new Date().getTime();
     var image = qrcode.grayScaleToBitmap(qrcode.grayscale());
@@ -145,11 +141,14 @@ module.exports = function(Canvas){
         str+=String.fromCharCode(data[i][j]);
       }
     }
-    var end = new Date().getTime();
-    var time = end - start;
 
-    return qrcode.decode_utf8(str);
-    // console.log("Time:" + time + " Code: "+str);
+    if (qrcode.debug) {
+        var end = new Date().getTime();
+        var time = end - start;
+        console.log("Time:" + time + " Code: "+str);
+    }
+
+    return str;
   }
 
   qrcode.getPixel = function(x,y){
